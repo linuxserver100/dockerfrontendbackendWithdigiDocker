@@ -12,6 +12,14 @@ In order to run this in docker, simply type ```docker-compose up``` at the comma
 
 Here's a GitHub Actions workflow that builds both the frontend (React app) and backend (Node.js/Express app) of your application, then pushes the combined image to the DigitalOcean Container Registry.
 
+
+prequesties#######
+
+1.Docker file of frontend 
+2.Dockerfile of backend
+
+in below steps we combine both docker files in a third docker file which will be present in the root directory of the application and the create a ci.yml file in workflows to execute both backend and frontend in one image and then push it of container registry on digitalocean 
+
 ### GitHub Actions Workflow
 
 Create a file named `ci.yml` in the `.github/workflows` directory of your repository and add the following code:

@@ -18,7 +18,7 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Build image
-        run: docker build -t dockerreact .
+        run: docker build -t dockerreactfront .
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
@@ -26,6 +26,6 @@ jobs:
       - name: Log in to DO Container Registry
         run: doctl registry login --expiry-seconds 600
       - name: Tag image
-        run: docker tag dockerreact registry.digitalocean.com/sandyauth/digireact
+        run: docker tag dockerreactfront registry.digitalocean.com/sandyauth/digireactfront
       - name: Push image to DO Container Registry
-        run: docker push registry.digitalocean.com/sandyauth/digireact
+        run: docker push registry.digitalocean.com/sandyauth/digireactfront

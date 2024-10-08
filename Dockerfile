@@ -11,7 +11,7 @@ COPY . .
 
 EXPOSE 3001
 
-CMD ["node", "server.js"]
+# done by sandy not pre writtenCMD ["node", "server.js"]
 
 
 #backend docker buil dockerfile
@@ -28,6 +28,8 @@ RUN npm install
 
 # copy app files
 COPY . .
+# Copy built frontend files to backend
+COPY --from=frontend-build /usr/src/app/build ./public
 
 EXPOSE 3000
 CMD ["npm", "start"]

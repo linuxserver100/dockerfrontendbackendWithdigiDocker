@@ -17,6 +17,7 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Build image
+        dockerfile: dockerfrontendbackendWithdigiDocker/backend
         run: docker build -t dockerreactback .
       - name: Install doctl
         uses: digitalocean/action-doctl@v2

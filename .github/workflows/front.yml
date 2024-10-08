@@ -18,7 +18,9 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Build image
-        run: docker build -t dockerreactfront .
+        run: |
+         cd frontend
+         docker build -t dockerreactfront .
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:

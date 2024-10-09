@@ -1,11 +1,15 @@
 FROM node:14 AS frontend-build
 
 WORKDIR /app
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
 
+ENV PATH /app/node_modules/.bin:$PATH
+# install application dependencies
+COPY package*.json ./
+RUN npm install
+# RUN npm install react-scripts -g
+
+# copy app files
+COPY . .
 # Stage 2: Build Backend
 FROM node:14 AS backend-build
 

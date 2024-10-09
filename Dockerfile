@@ -10,18 +10,20 @@ RUN npm run build
 FROM node:14 AS backend-build
 
 WORKDIR /usr/src/app
-COPY backend/package.json backend/package-lock.json ./
-RUN npm install
-COPY backend/ ./
 
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
 # Stage 3: Final image
 FROM node:14
 
 # Copy built frontend files from frontend-build stage
-COPY --from=frontend-build /app/frontend/build /app/backend/public
+COPY --from=frontend-build /app/build /usr/src/app/public
 
-WORKDIR /app/backend
-COPY --from=backend-build /app/backend .
+WORKDIR /usr/src/app
+COPY --from=backend-build /usr/src/app .
 
 EXPOSE 3001
 CMD ["npm", "start"]  # Adjust this command to start your backend

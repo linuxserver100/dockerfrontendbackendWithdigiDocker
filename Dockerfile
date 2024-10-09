@@ -1,6 +1,6 @@
 FROM node:14 AS frontend-build
 
-WORKDIR /app/frontend
+WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
 COPY frontend/ ./
@@ -9,7 +9,7 @@ RUN npm run build
 # Stage 2: Build Backend
 FROM node:14 AS backend-build
 
-WORKDIR /app/backend
+WORKDIR /usr/src/app
 COPY backend/package.json backend/package-lock.json ./
 RUN npm install
 COPY backend/ ./

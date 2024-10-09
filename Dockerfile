@@ -1,37 +1,27 @@
-#frontend build docker file
-FROM node:10-alpine
+FROM node:14 AS frontend-build
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
+COPY frontend/ ./
+RUN npm run build
 
-COPY . .
+# Stage 2: Build Backend
+FROM node:14 AS backend-build
+
+WORKDIR /app/backend
+COPY backend/package.json backend/package-lock.json ./
+RUN npm install
+COPY backend/ ./
+
+# Stage 3: Final image
+FROM node:14
+
+# Copy built frontend files from frontend-build stage
+COPY --from=frontend-build /app/frontend/build /app/backend/public
+
+WORKDIR /app/backend
+COPY --from=backend-build /app/backend .
 
 EXPOSE 3001
-
-# done by sandy not pre writtenCMD ["node", "server.js"]
-
-
-#backend docker buil dockerfile
-FROM node:14-alpine
-
-WORKDIR /app
-
-# add '/app/node_modules/.bin' to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-# install application dependencies
-COPY package*.json ./
-RUN npm install
-# RUN npm install react-scripts -g
-
-# copy app files
-COPY . .
-# Copy built frontend files to backend
-COPY --from=frontend-build /usr/src/app/build ./public
-
-EXPOSE 3000
-CMD ["npm", "start"]
-
-
+CMD ["npm", "start"]  # Adjust this command to start your backend
